@@ -43,20 +43,18 @@ std::optional< SP::Solution > SP::dijkstra() {
     edges.push(edge);
   }
 
-  for (size_t i = 0; i < vertices.size() - 1; ++i) {
-    while (!edges.empty()) {
-      auto edge = edges.top();
-      edges.pop();
+  while (!edges.empty()) {
+    auto edge = edges.top();
+    edges.pop();
 
-      if (dist[edge.to] > dist[edge.from] + edge.weight) {
-        dist[edge.to] = dist[edge.from] + edge.weight;
-        prev[edge.to] = edge.from;
+    if (dist[edge.to] > dist[edge.from] + edge.weight) {
+      dist[edge.to] = dist[edge.from] + edge.weight;
+      prev[edge.to] = edge.from;
 
-        visited[edge.from] = true;
+      visited[edge.from] = true;
 
-        for (const auto& nextEdge : m_graph->getOutgoingEdges(edge.to)) {
-          if (!visited[nextEdge.to]) { edges.push(nextEdge); }
-        }
+      for (const auto& nextEdge : m_graph->getOutgoingEdges(edge.to)) {
+        if (!visited[nextEdge.to]) { edges.push(nextEdge); }
       }
     }
   }
@@ -89,7 +87,6 @@ std::optional< SP::Solution > SP::bellmanFord() {
 
   auto current = m_source;
   for (size_t i = 0; i < m_graph->getNumVertices(); ++i) {
-
     for (const auto& edge : m_graph->getOutgoingEdges(current)) {
       if (dist[edge.to] > dist[edge.from] + edge.weight) {
         dist[edge.to] = dist[edge.from] + edge.weight;

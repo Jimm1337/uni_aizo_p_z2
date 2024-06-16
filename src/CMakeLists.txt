@@ -5,7 +5,8 @@ add_executable(uni_aizo_p_z2 main.cpp
         aizo_tool_readergraph.cpp
         aizo_tool_menu.cpp
         aizo_algo_mst.cpp
-        aizo_algo_sp.cpp)
+        aizo_algo_sp.cpp
+        aizo_tool_measure.cpp)
 include_directories(${CMAKE_SOURCE_DIR}/include)
 
 # Compile options

@@ -3,6 +3,7 @@
 #include "aizo_tool_readergraph.hpp"
 #include "aizo_algo_mst.hpp"
 #include "aizo_algo_sp.hpp"
+#include "aizo_tool_measure.hpp"
 #include <fmt/core.h>
 #include <iostream>
 
@@ -511,7 +512,8 @@ void Menu::runSPBellmanFord() {
 }
 
 void Menu::measure() {
-  std::cout << "Not implemented yet.\n";
+  measure::mst();
+  measure::sp();
 }
 
 } // namespace aizo::tool
