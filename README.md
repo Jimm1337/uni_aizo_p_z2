@@ -13,7 +13,3 @@ cmake ..
 make
 ```
 
-## Zadanie 1
-### Opis zadania
-Zaprezentować sortowania: quickSort, heapSort, InsertionSort
-
