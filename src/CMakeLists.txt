@@ -26,5 +26,5 @@ elseif (CMAKE_CXX_COMPILER_ID STREQUAL "MSVC")
 endif ()
 
 # Libraries
-target_link_libraries(uni_aizo_p_z2 PUBLIC fmt::fmt scn::scn)
+target_link_libraries(uni_aizo_p_z2 PUBLIC fmt::fmt)
 target_include_directories(uni_aizo_p_z2 PUBLIC ${fmt_INCLUDE_DIRS} ${gsl_SOURCE_DIR}/include ${scn_INCLUDE_DIRS})

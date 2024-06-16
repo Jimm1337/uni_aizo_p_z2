@@ -2,15 +2,17 @@
 #include "aizo_ds_graphmatrix.hpp"
 #include "aizo_ds_graphlist.hpp"
 #include <fmt/core.h>
+#include <iostream>
 #include <queue>
 
 namespace aizo::algo {
 
 void MST::Solution::print() const {
-  fmt::println("Weight: {}", m_weight);
-  fmt::println("Tree edges:");
+  std::cout << fmt::format("Weight: {}\n", m_weight);
+  std::cout << "Tree edges:\n";
   for (const auto& edge : m_edges) {
-    fmt::println("({} - {}): {}", edge.from, edge.to, edge.weight);
+    std::cout << fmt::format(
+      "({} - {}): {}\n", edge.from, edge.to, edge.weight);
   }
 }
 

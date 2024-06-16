@@ -1,5 +1,6 @@
 #include <fmt/core.h>
 #include "aizo_ds_graphmatrix.hpp"
+#include <iostream>
 
 namespace aizo::ds {
 
@@ -63,7 +64,10 @@ std::vector< GraphMatrix::Edge > GraphMatrix::getEdges() const {
   for (const auto& edge : m_matrix) {
     if (m_isDirected) {
       for (const auto cost : edge) {
-        if (cost == 0) { ++vertIdx; continue; }
+        if (cost == 0) {
+          ++vertIdx;
+          continue;
+        }
 
         if (cost < 0) {
           dest = vertIdx;
@@ -81,7 +85,10 @@ std::vector< GraphMatrix::Edge > GraphMatrix::getEdges() const {
       }
     } else {
       for (const auto cost : edge) {
-        if (cost == 0) { ++vertIdx; continue; }
+        if (cost == 0) {
+          ++vertIdx;
+          continue;
+        }
 
         if (src == std::numeric_limits< Vertex >::max()) {
           src    = vertIdx;
@@ -127,13 +134,31 @@ std::vector< GraphMatrix::Edge > GraphMatrix::getOutgoingEdges(
   Vertex vertex) const {
   std::vector< Edge > edges;
 
-  const auto allEdges = getEdges();
-
-  for (const auto& edge : allEdges) {
-    if ((m_isDirected && edge.from == vertex) ||
-        (!m_isDirected && edge.from == vertex) ||
-        (!m_isDirected && edge.to == vertex)) {
-      edges.emplace_back(edge);
+  for (const auto& edge : m_matrix) {
+    if (m_isDirected) {
+      if (edge.at(vertex) > 0) {
+        for (size_t i = 0; i < edge.size(); ++i) {
+          if (edge.at(i) < 0) {
+            const auto weight = m_negativeEdge.at(&edge - &m_matrix.front()) ?
+                                  edge.at(i) :
+                                  -edge.at(i);
+            edges.emplace_back(vertex, i, weight);
+            break;
+          }
+        }
+      }
+    } else {
+      if (edge.at(vertex) > 0) {
+        for (size_t i = 0; i < edge.size(); ++i) {
+          if (edge.at(i) > 0 && i != vertex) {
+            const auto weight = m_negativeEdge.at(&edge - &m_matrix.front()) ?
+                                  -edge.at(i) :
+                                  edge.at(i);
+            edges.emplace_back(vertex, i, weight);
+            break;
+          }
+        }
+      }
     }
   }
 
@@ -158,21 +183,23 @@ void GraphMatrix::clear() {
 }
 
 void GraphMatrix::print() const {
-  fmt::print("         |");
+  std::cout << "         |";
 
   size_t edgeIdx = 0;
 
-  for (auto i = 0; i < getNumVertices(); ++i) { fmt::print("v{:<5}|", i); }
+  for (auto i = 0; i < getNumVertices(); ++i) {
+    std::cout << fmt::format("v{:<5}|", i);
+  }
   for (const auto& edge : m_matrix) {
     if (m_negativeEdge.at(edgeIdx)) {
-      fmt::print("\ne{:<5}(-)|", &edge - &m_matrix.front());
+      std::cout << fmt::format("\ne{:<5}(-)|", &edge - &m_matrix.front());
     } else {
-      fmt::print("\ne{:<5}(+)|", &edge - &m_matrix.front());
+      std::cout << fmt::format("\ne{:<5}(+)|", &edge - &m_matrix.front());
     }
-    for (const auto& cost : edge) { fmt::print("{:<6}|", cost); }
+    for (const auto& cost : edge) { std::cout << fmt::format("{:<6}|", cost); }
     ++edgeIdx;
   }
-  fmt::print("\n");
+  std::cout << '\n';
 }
 
 } // namespace aizo::ds

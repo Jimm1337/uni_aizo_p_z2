@@ -56,126 +56,120 @@ void Menu::run() {
 }
 
 void Menu::printMenu() {
-  fmt::println("---Menu---");
-  fmt::println("(0) - Generate Graph");
-  fmt::println("(1) - Read Graph (Matrix)");
-  fmt::println("(2) - Read Graph (List)");
-  fmt::println("(3) - Display Graph (Matrix)");
-  fmt::println("(4) - Display Graph (List)");
-  fmt::println("(5) - Run MST (Kruskal)");
-  fmt::println("(6) - Run MST (Prim)");
-  fmt::println("(7) - Run SP (Dijkstra)");
-  fmt::println("(8) - Run SP (Bellman-Ford)");
-  fmt::println("(9) - Measure");
-  fmt::println("(x) - Exit");
-  fmt::println("----------");
+  std::cout << "---Menu---\n";
+  std::cout << "(0) - Generate Graph\n";
+  std::cout << "(1) - Read Graph (Matrix)\n";
+  std::cout << "(2) - Read Graph (List)\n";
+  std::cout << "(3) - Display Graph (Matrix)\n";
+  std::cout << "(4) - Display Graph (List)\n";
+  std::cout << "(5) - Run MST (Kruskal)\n";
+  std::cout << "(6) - Run MST (Prim)\n";
+  std::cout << "(7) - Run SP (Dijkstra)\n";
+  std::cout << "(8) - Run SP (Bellman-Ford)\n";
+  std::cout << "(9) - Measure\n";
+  std::cout << "(x) - Exit\n";
+  std::cout << "----------\n";
   std::cout << std::flush;
 }
 
 Menu::State Menu::readInput() {
   char choice{};
 
-  while (choice != '0' && choice != '1' && choice != '2' && choice != '3' &&
-         choice != '4' && choice != '5' && choice != '6' && choice != '7' &&
-         choice != '8' && choice != '9' && choice != 'x') {
-    fmt::print("Enter choice: ");
-    std::cin >> choice;
-    switch (choice) {
-    case '0':
-      return State::GenerateGraph;
-    case '1':
-      return State::ReadGraph_Matrix;
-    case '2':
-      return State::ReadGraph_List;
-    case '3':
-      return State::DisplayGraphMatrix;
-    case '4':
-      return State::DisplayGraphList;
-    case '5':
-      return State::RunMST_Kruskal;
-    case '6':
-      return State::RunMST_Prim;
-    case '7':
-      return State::RunSP_Dijkstra;
-    case '8':
-      return State::RunSP_BellmanFord;
-    case '9':
-      return State::Measure;
-    case 'x':
-      return State::Exit;
-    default:
-      badChoice();
-      return State::Start;
-    }
+  std::cout << "Enter choice: ";
+  std::cin >> choice;
+  switch (choice) {
+  case '0':
+    return State::GenerateGraph;
+  case '1':
+    return State::ReadGraph_Matrix;
+  case '2':
+    return State::ReadGraph_List;
+  case '3':
+    return State::DisplayGraphMatrix;
+  case '4':
+    return State::DisplayGraphList;
+  case '5':
+    return State::RunMST_Kruskal;
+  case '6':
+    return State::RunMST_Prim;
+  case '7':
+    return State::RunSP_Dijkstra;
+  case '8':
+    return State::RunSP_BellmanFord;
+  case '9':
+    return State::Measure;
+  case 'x':
+    return State::Exit;
+  default:
+    badChoice();
+    return State::Start;
   }
-
-  return State::Start;
 }
 
 void Menu::badChoice() {
-  fmt::println("[W] Wrong input, try again.");
+  std::cout << "[W] Wrong input, try again.\n";
   std::cout << std::flush;
 }
 
 void Menu::generateGraph() {
-  fmt::println("*** Graph Size ***");
+  std::cout << "*** Graph Size ***\n";
   std::cout << std::flush;
 
   int64_t size{};
   while (size <= 10) {
-    fmt::print("Enter size: ");
+    std::cout << "Enter size: ";
     std::cout << std::flush;
     std::cin >> size;
 
     if (size <= 10) {
-      fmt::println("[W] Size must be greater than 10.");
+      std::cout << "[W] Size must be greater than 10.\n";
       std::cout << std::flush;
     }
   }
 
-  fmt::println("*** Graph Weight Range ***");
+  std::cout << "*** Graph Weight Range ***\n";
   std::cout << std::flush;
 
   ds::IGraph::Weight weightMin{};
   ds::IGraph::Weight weightMax{};
   while (weightMin >= weightMax) {
-    fmt::print("Enter Minimum Weight: ");
+    std::cout << "Enter Minimum Weight: ";
     std::cout << std::flush;
     std::cin >> weightMin;
 
-    fmt::print("Enter Maximum Weight: ");
+    std::cout << "Enter Maximum Weight: ";
     std::cout << std::flush;
     std::cin >> weightMax;
 
     if (weightMin >= weightMax) {
-      fmt::println("[W] Min must be less than max.");
+      std::cout << "[W] Min must be less than max.\n";
       std::cout << std::flush;
     }
   }
 
-  fmt::println("*** Graph Density ***");
+  std::cout << "*** Graph Density ***\n";
   std::cout << std::flush;
 
   char density{};
   while (density != '0' && density != '1' && density != '2') {
-    fmt::println("(0) - 25% density");
-    fmt::println("(1) - 50% density");
-    fmt::println("(2) - 99% density");
+    std::cout << "(0) - 25% density\n";
+    std::cout << "(1) - 50% density\n";
+    std::cout << "(2) - 99% density\n";
     std::cout << std::flush;
-    fmt::print("Enter choice: ");
+    std::cout << "Enter choice: ";
     std::cout << std::flush;
     std::cin >> density;
   }
 
-  fmt::println("*** Graph Type ***");
+  std::cout << "*** Graph Type ***\n";
   std::cout << std::flush;
 
   char type{};
   while (type != '0' && type != '1') {
-    fmt::println("(0) - Directed");
-    fmt::println("(1) - Undirected");
+    std::cout << "(0) - Directed\n";
+    std::cout << "(1) - Undirected\n";
     std::cout << std::flush;
-    fmt::print("Enter choice: ");
+    std::cout << "Enter choice: ";
     std::cout << std::flush;
     std::cin >> type;
   }
@@ -217,7 +211,7 @@ void Menu::generateGraph() {
     m_graphList      = graph;
   }
 
-  fmt::println("[I] Graph generated successfully.");
+  std::cout << "[I] Graph generated successfully.\n";
   std::cout << std::flush;
 }
 
@@ -226,7 +220,7 @@ void Menu::readGraphMatrix() {
   std::optional< std::variant< ds::GraphMatrix, ds::GraphList > > graph;
 
   while (!graph.has_value()) {
-    fmt::println("Enter path to file: ");
+    std::cout << "Enter path to file: ";
     std::cout << std::flush;
     std::cin >> path;
 
@@ -238,7 +232,7 @@ void Menu::readGraphMatrix() {
     readerGraph.closeFile();
 
     if (!graph.has_value()) {
-      fmt::println("[W] Error reading graph.");
+      std::cout << "[W] Error reading graph.\n";
       std::cout << std::flush;
     }
   }
@@ -258,7 +252,7 @@ void Menu::readGraphMatrix() {
 
   for (const auto& edge : edges) { m_graphList->addEdge(edge); }
 
-  fmt::println("[I] Graph read successfully.");
+  std::cout << "[I] Graph read successfully.\n";
   std::cout << std::flush;
 }
 
@@ -278,7 +272,7 @@ void Menu::readGraphList() {
     readerGraph.closeFile();
 
     if (!graph.has_value()) {
-      fmt::println("[W] Error reading graph.");
+      std::cout << "[W] Error reading graph.\n";
       std::cout << std::flush;
     }
   }
@@ -298,7 +292,7 @@ void Menu::readGraphList() {
 
   for (const auto& edge : edges) { m_graphMatrix->addEdge(edge); }
 
-  fmt::println("[I] Graph read successfully.");
+  std::cout << "[I] Graph read successfully.\n";
   std::cout << std::flush;
 }
 
@@ -306,7 +300,7 @@ void Menu::displayGraphMatrix() {
   if (m_graphMatrix.has_value()) {
     m_graphMatrix->print();
   } else {
-    fmt::println("No graph available.");
+    std::cout << "No graph available.\n";
     std::cout << std::flush;
   }
 }
@@ -315,14 +309,14 @@ void Menu::displayGraphList() {
   if (m_graphList.has_value()) {
     m_graphList->print();
   } else {
-    fmt::println("No graph available.");
+    std::cout << "No graph available.\n";
     std::cout << std::flush;
   }
 }
 
 void Menu::runMSTKruskal() {
-  fmt::println("(0) List representation");
-  fmt::println("(1) Matrix representation");
+  std::cout << "(0) List representation\n";
+  std::cout << "(1) Matrix representation\n";
   std::cout << std::flush;
 
   char choice{};
@@ -337,11 +331,11 @@ void Menu::runMSTKruskal() {
         kruskal.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Kruskal's algorithm.");
+        std::cout << "Error computing Kruskal's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   } else {
@@ -352,24 +346,24 @@ void Menu::runMSTKruskal() {
         kruskal.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Kruskal's algorithm.");
+        std::cout << "Error computing Kruskal's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   }
 }
 
 void Menu::runMSTPrim() {
-  fmt::println("(0) List representation");
-  fmt::println("(1) Matrix representation");
+  std::cout << "(0) List representation\n";
+  std::cout << "(1) Matrix representation\n";
   std::cout << std::flush;
 
   char choice{};
   while (choice != '0' && choice != '1') {
-    fmt::print("Enter choice: ");
+    std::cout << "Enter choice: ";
     std::cout << std::flush;
     std::cin >> choice;
   }
@@ -383,11 +377,11 @@ void Menu::runMSTPrim() {
         prim.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Prim's algorithm.");
+        std::cout << "Error computing Prim's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   } else {
@@ -398,31 +392,31 @@ void Menu::runMSTPrim() {
         prim.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Prim's algorithm.");
+        std::cout << "Error computing Prim's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   }
 }
 
 void Menu::runSPDijkstra() {
-  fmt::print("(0) List representation");
-  fmt::print("(1) Matrix representation");
+  std::cout << "(0) List representation\n";
+  std::cout << "(1) Matrix representation\n";
   std::cout << std::flush;
 
   char choice{};
   while (choice != '0' && choice != '1') {
-    fmt::print("Enter choice: ");
+    std::cout << "Enter choice: ";
     std::cout << std::flush;
     std::cin >> choice;
   }
 
   int source{ -1 };
   while (source < 0) {
-    fmt::print("Enter source vertex: ");
+    std::cout << "Enter source vertex: ";
     std::cout << std::flush;
     std::cin >> source;
   }
@@ -437,11 +431,11 @@ void Menu::runSPDijkstra() {
         dijkstra.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Dijkstra's algorithm.");
+        std::cout << "Error computing Dijkstra's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   } else {
@@ -452,31 +446,31 @@ void Menu::runSPDijkstra() {
         dijkstra.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Dijkstra's algorithm.");
+        std::cout << "Error computing Dijkstra's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   }
 }
 
 void Menu::runSPBellmanFord() {
-  fmt::print("(0) List representation");
-  fmt::print("(1) Matrix representation");
+  std::cout << "(0) List representation\n";
+  std::cout << "(1) Matrix representation\n";
   std::cout << std::flush;
 
   char choice{};
   while (choice != '0' && choice != '1') {
-    fmt::print("Enter choice: ");
+    std::cout << "Enter choice: ";
     std::cout << std::flush;
     std::cin >> choice;
   }
 
   int source{ -1 };
   while (source < 0) {
-    fmt::print("Enter source vertex: ");
+    std::cout << "Enter source vertex: ";
     std::cout << std::flush;
     std::cin >> source;
   }
@@ -488,19 +482,14 @@ void Menu::runSPBellmanFord() {
       sp.loadGraph(m_graphList.value());
       const auto bellmanFord = sp.bellmanFord();
       if (bellmanFord.has_value()) {
-        if (bellmanFord.value().m_negativeCycle) {
-          fmt::println("Negative cycle detected.");
-          std::cout << std::flush;
-          return;
-        }
         bellmanFord.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Bellman-Ford's algorithm.");
+        std::cout << "Error computing Bellman-Ford's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   } else {
@@ -508,26 +497,21 @@ void Menu::runSPBellmanFord() {
       sp.loadGraph(m_graphMatrix.value());
       const auto bellmanFord = sp.bellmanFord();
       if (bellmanFord.has_value()) {
-        if (bellmanFord.value().m_negativeCycle) {
-          fmt::println("Negative cycle detected.");
-          std::cout << std::flush;
-          return;
-        }
         bellmanFord.value().print();
         std::cout << std::flush;
       } else {
-        fmt::println("Error computing Bellman-Ford's algorithm.");
+        std::cout << "Error computing Bellman-Ford's algorithm.\n";
         std::cout << std::flush;
       }
     } else {
-      fmt::println("No graph available.");
+      std::cout << "No graph available.\n";
       std::cout << std::flush;
     }
   }
 }
 
 void Menu::measure() {
-  fmt::println("Not implemented yet.");
+  std::cout << "Not implemented yet.\n";
 }
 
 } // namespace aizo::tool

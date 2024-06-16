@@ -1,19 +1,17 @@
 #include "aizo_algo_sp.hpp"
 #include "fmt/core.h"
 #include <queue>
+#include <iostream>
 
 namespace aizo::algo {
 
 void SP::Solution::print() const {
-  if (m_negativeCycle) {
-    fmt::println("Negative cycle detected.");
-    return;
-  }
-
-  fmt::println("Shortest paths:");
+  std::cout << "Shortest paths:\n";
   for (size_t i = 0; i < m_path.size(); ++i) {
-    for (const auto& vert : m_path[i]) { fmt::print("{} ", vert); }
-    fmt::println("|Cost: {}", m_weight[i]);
+    for (const auto& vert : m_path[i]) {
+      std::cout << fmt::format("{} ", vert);
+    }
+    std::cout << fmt::format("|Cost: {}\n", m_weight[i]);
   }
 }
 
@@ -64,8 +62,7 @@ std::optional< SP::Solution > SP::dijkstra() {
   }
 
   for (size_t i = 0; i < vertices.size(); ++i) {
-    std::list< ds::IGraph::Edge > path;
-    ds::IGraph::Vertex            current = i;
+    ds::IGraph::Vertex current = i;
 
     solution.m_path.emplace_back();
 
@@ -76,8 +73,6 @@ std::optional< SP::Solution > SP::dijkstra() {
 
     solution.m_weight.push_back(dist[i]);
   }
-
-  solution.m_negativeCycle = false;
 
   return solution;
 }
@@ -92,44 +87,27 @@ std::optional< SP::Solution > SP::bellmanFord() {
 
   dist[m_source] = 0;
 
-  bool done = false;
-  for (size_t i = 0; i < m_graph->getNumVertices() - 1; ++i) {
-    bool relaxed = false;
-    for (const auto& edge : m_graph->getVertices()) {
-      for (const auto& nextEdge : m_graph->getOutgoingEdges(edge)) {
-        if (dist[nextEdge.to] > dist[nextEdge.from] + nextEdge.weight) {
-          dist[nextEdge.to] = dist[nextEdge.from] + nextEdge.weight;
-          prev[nextEdge.to] = nextEdge.from;
-          relaxed           = true;
-        }
-      }
-      if (!relaxed) {
-        done = true;
-        break;
-      }
-    }
-  }
+  auto current = m_source;
+  for (size_t i = 0; i < m_graph->getNumVertices(); ++i) {
 
-  if (!done) {
-    for (const auto& edge : m_graph->getVertices()) {
-      for (const auto& nextEdge : m_graph->getOutgoingEdges(edge)) {
-        if (dist[nextEdge.to] > dist[nextEdge.from] + nextEdge.weight) {
-          solution.m_negativeCycle = true;
-          return solution;
-        }
+    for (const auto& edge : m_graph->getOutgoingEdges(current)) {
+      if (dist[edge.to] > dist[edge.from] + edge.weight) {
+        dist[edge.to] = dist[edge.from] + edge.weight;
+        prev[edge.to] = edge.from;
       }
     }
+
+    current = (current + 1) % m_graph->getNumVertices();
   }
 
   for (size_t i = 0; i < m_graph->getNumVertices(); ++i) {
-    std::list< ds::IGraph::Vertex > path;
-    ds::IGraph::Vertex              current = i;
+    ds::IGraph::Vertex cur = i;
 
     solution.m_path.emplace_back();
 
-    while (current != -1) {
-      solution.m_path.at(i).push_front(current);
-      current = prev[current];
+    while (cur != -1) {
+      solution.m_path.at(i).push_front(cur);
+      cur = prev[cur];
     }
 
     solution.m_weight.push_back(dist[i]);

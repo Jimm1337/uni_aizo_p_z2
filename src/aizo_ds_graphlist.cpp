@@ -1,6 +1,7 @@
 #include "aizo_ds_graphlist.hpp"
 #include <fmt/core.h>
 #include <unordered_map>
+#include <iostream>
 
 namespace aizo::ds {
 
@@ -103,13 +104,13 @@ void GraphList::clear() {
 
 void GraphList::print() const {
   for (size_t i = 0; i < getNumVertices(); ++i) {
-    fmt::print("v{:<5}|", i);
+    std::cout << fmt::format("v{:<5}|", i);
 
     for (const auto& node : m_list.at(i)) {
-      fmt::print("{}({}) -> ", node.vertex, node.weight);
+      std::cout << fmt::format("{}({}) -> ", node.vertex, node.weight);
     }
 
-    fmt::print("\n");
+    std::cout << '\n';
   }
 }
 

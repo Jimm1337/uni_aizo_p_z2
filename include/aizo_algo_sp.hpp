@@ -13,7 +13,6 @@ public:
   struct Solution {
     std::vector< std::list< ds::IGraph::Vertex > > m_path;
     std::vector< ds::IGraph::Weight >              m_weight;
-    bool                                          m_negativeCycle{false};
 
     void print() const;
   };
